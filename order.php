@@ -1,5 +1,5 @@
 <?php
-    include('partials-front/menu.php');
+    include('after-login/checking/menu.php');
 ?>
 <?php
     //Check wether food is set or not
@@ -35,14 +35,14 @@
 
 
     <!-- fOOD sEARCH Section Starts Here -->
-    <section class="food-search">
+    <section class="food-search" data-aos="zoom-in" data-aos-duration="1200">
         <div class="container">
             
             <h2 class="text-center text-white">Fill this form to confirm your order.</h2>
 
             <form action="" method="POST" class="order">
                 <fieldset>
-                    <legend>Selected Food</legend>
+                    <legend style="color: white;">Selected Food</legend>
 
                     <div class="food-menu-img">
                         
@@ -58,7 +58,6 @@
                                 <?php
                             }
                         ?>
-                        
                     </div>
     
                     <div class="food-menu-desc">
@@ -70,24 +69,24 @@
 
                         <div class="order-label">Quantity</div>
                         <input type="number" name="qty" class="input-responsive" value="1" required>
+
+                        <div class="order-label">Id Table</div>
+                        <input type="text" name="tbl" class="input-responsive" placeholder="Id Table" required>
                         
                     </div>
 
                 </fieldset>
                 
                 <fieldset>
-                    <legend>Delivery Details</legend>
+                    <legend style="color: white;">Delivery Details</legend>
                     <div class="order-label">Full Name</div>
-                    <input type="text" name="full-name" placeholder="E.g. Vijay Thapa" class="input-responsive" required>
+                    <input type="text" name="full-name" placeholder="Full Name" class="input-responsive form-control" required>
 
                     <div class="order-label">Phone Number</div>
-                    <input type="tel" name="contact" placeholder="E.g. 9843xxxxxx" class="input-responsive" required>
-
-                    <div class="order-label">Email</div>
-                    <input type="email" name="email" placeholder="E.g. hi@vijaythapa.com" class="input-responsive" required>
+                    <input type="tel" name="contact" placeholder="Phone Number" class="input-responsive form-control" required>
 
                     <div class="order-label">Address</div>
-                    <textarea name="address" rows="10" placeholder="E.g. Street, City, Country" class="input-responsive" required></textarea>
+                    <textarea name="address" rows="10" placeholder="E.g. Street, City, Country" class="form-control input-responsive" required></textarea>
 
                     <input type="submit" name="submit" value="Confirm Order" class="btn btn-primary">
                 </fieldset>
@@ -101,25 +100,25 @@
                 $food = $_POST['food'];
                 $price = $_POST['price'];
                 $qty = $_POST['qty'];
+                $tbl = $_POST['tbl'];
                 $total = $price * $qty; // Menghitung total
                 $order_date = date("Y-m-d h:i:sa");
                 $status = "Ordered";
                 $customer_name = mysqli_real_escape_string($conn, $_POST['full-name']);
                 $customer_contact  = mysqli_real_escape_string($conn, $_POST['contact']);
-                $customer_email = mysqli_real_escape_string($conn, $_POST['email']);
                 $customer_address = mysqli_real_escape_string($conn, $_POST['address']);
 
                 //proses menyimpan data ke database
                 $sql2 = "INSERT INTO tbl_order SET
                     food = '$food',
                     price = $price,
+                    id_table = '$tbl';
                     qty = $qty,
                     total = $total,
                     order_date = '$order_date',
                     status = '$status',
                     customer_name = '$customer_name',
                     customer_contact = '$customer_contact',
-                    customer_email = '$customer_email',
                     customer_address = '$customer_address'
                 ";
                 //proses eksekusi
@@ -128,11 +127,11 @@
                 if($res2 == true){
                     //Data akan tersimpan
                     $_SESSION['order'] = "<div class = 'sukses text-center'>Food ordered successfully</div>";
-                    header('location:'.SITEURL);
+                    header('location:'.SITEURL.'after-login/index-login.php');
                 }else{
                     //Gagal di simpan
                     $_SESSION['order'] = "<div class = 'eror text-center'>Failed to order food</div>";
-                    header('location:'.SITEURL);
+                    header('location:'.SITEURL.'after-login/index-login.php');
                 }
             }
         ?>
@@ -157,6 +156,9 @@
             </ul>
         </div>
     </section>
+    <script>
+        AOS.init();
+    </script>
     <!-- social Section Ends Here -->
 
 <?php

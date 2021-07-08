@@ -5,7 +5,6 @@
 		<h1>Add Admin</h1>
 
 		<br><br>
-
 		<?php 
 				if(isset($_SESSION['add']))//Checking whether the session is set or not
 				{
@@ -63,11 +62,10 @@
 		$sql = "INSERT INTO tbl_admin SET 
 		full_name = '$full_name', 
 		username = '$username', 
-		password = '$password'
-		";
+		password = '$password'";
 
 		//3. Executing query and saving data into database
-		$res = mysqli_query($conn, $sql) or die(mysqli_error());
+		$res = mysqli_query($conn, $sql);
 
 		//4. Check whether the (Query is executed) data is inserted or not and display appropriate
 		//message

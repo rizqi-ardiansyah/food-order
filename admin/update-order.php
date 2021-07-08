@@ -26,7 +26,6 @@
 			$status = $row ['status'];
 			$customer_name = $row['customer_name'];
 			$customer_contact  = $row['customer_contact'];
-			$customer_email = $row['customer_email'];
 			$customer_address = $row['customer_address']; 
         }else{
             header ('location:'.SITEURL.'admin/manage-order.php');
@@ -77,12 +76,6 @@
             </td>
         </tr>
         <tr>
-            <td>Email</td>
-            <td>
-                <input type="email" name="customer_email" value="<?php echo $customer_email;?>">
-            </td>
-        </tr>
-        <tr>
             <td>Address</td>
             <td>
                 <textarea name="customer_address" cols="30" rows="5"><?php echo $customer_address;?></textarea>
@@ -118,7 +111,6 @@
             status = '$status',
             customer_name = '$customer_name',
             customer_contact = '$customer_contact',
-            customer_email = '$customer_email',
             customer_address = '$customer_address'
             WHERE id = $id
         ";
