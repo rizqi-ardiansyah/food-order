@@ -4,8 +4,6 @@
 	<div class="main-content">
 		<div class="wrapper">
 			<h1>Manage Admin</h1>
-			<br />
-
 			<?php 
 				if(isset($_SESSION['add']))
 				{
@@ -38,7 +36,7 @@
 					unset($_SESSION['ubah-password']); //Removing session message
 				}
 			?>
-			<br /><br /><br />
+			<br/><br/>
 			<!-- Button to add Admin -->
 			<a href="add-admin.php" class="btn-primary">Add Admin</a>
 			<br /><br /><br />

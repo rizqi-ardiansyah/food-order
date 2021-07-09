@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Daftar Makanan</title>
+        <link rel="stylesheet" href="/BS/dist/css/bootstrap.min.css">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/Icon.ico">
+
+    </head>
+    <body>
+
 <?php
     include('partials-front/menu.php');
 ?>
@@ -14,7 +28,7 @@
     </section>
 
     <!-- fOOD MEnu Section Starts Here -->
-    <section class="food-menu">
+    <section class="food-menu" data-aos="fade-up" data-aos-duration="1500">
         <div class="container">
             <h2 class="text-center">Food Menu</h2>
 
@@ -84,7 +98,7 @@
     <!-- fOOD Menu Section Ends Here -->
 
     <!-- social Section Starts Here -->
-    <section class="social">
+    <section class="social" data-aos="fade-up" data-aos-duration="1700">
         <div class="container text-center">
             <ul>
                 <li>
@@ -100,7 +114,9 @@
         </div>
     </section>
     <!-- social Section Ends Here -->
-
+    <script>
+        AOS.init();
+    </script>            
 <?php
     include('partials-front/footer.php');
 ?>
