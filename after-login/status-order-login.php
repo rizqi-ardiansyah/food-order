@@ -1,6 +1,7 @@
 <?php 
     include('../config/constants.php');
-    include('checking/login-cust-check.php');?>
+    include('checking/login-cust-check.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +42,10 @@
                         <a class="nav-link" href="<?php echo SITEURL; ?>after-login/foods-login.php">Foods</a>
                     </li>
 					<li class="navbar-text">
-                        <a class="nav-link" href="<?php echo SITEURL; ?>status-order.php">Ordered Status</a>
+                        <a class="nav-link" href="<?php echo SITEURL; ?>after-login/status-order-login.php">Ordered Status</a>
+					</li>
+					<li class="navbar-text">
+                        <a class="nav-link" href="<?php echo SITEURL; ?>after-login/cart-index.php">Cart</a>
 					</li>
                     <li class="navbar-text">
                         <a class="nav-link" href="<?php echo SITEURL; ?>after-login/customer-login.php">Logout</a>
@@ -81,7 +85,8 @@
 				</thead>
 <?php
 	//Proses mendapatkan data
-	$sql = "SELECT * FROM tbl_order WHERE status != 'Delivered' ORDER BY id ASC";
+	$id_table = $_SESSION['cust'];
+	$sql = "SELECT * FROM tbl_order WHERE status != 'Delivered' AND id_table = '$id_table' ORDER BY id ASC";
 	//Proses eksekusi
 	$res = mysqli_query($conn, $sql);
 	//Menghitung baris

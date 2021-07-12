@@ -137,7 +137,6 @@
                                             ?>
                                             
                                         </div>
-
                                         <div class="food-menu-desc">
                                             <h4><?php echo $title;?></h4>
                                             <p class="food-price">Rp <?php echo $price;?></p>

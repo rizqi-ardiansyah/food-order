@@ -39,12 +39,12 @@ CREATE TABLE tbl_food (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO tbl_food (id, title, description, price, image_name, category_id, featured, active) VALUES
-(5, 'Bakso', 'Diolah dari daging sapi pilihan', '5000.00', 'Food-Name-4481.jpg', 1, 'Yes', 'Yes'),
-(6, 'Nasi Goreng', 'Digoreng dengan minyak pilihan dan dilengkapi sayur mayur				', '7000.00', 'Food-Name-5441.jpg', 10, 'Yes', 'Yes'),
-(7, 'Nasi Pecel', 'Dicampur dengan sambal yang pedas\r\n						', '5000.00', 'Food-Name-8290.jpg', 10, 'Yes', 'Yes'),
-(8, 'Ayam Geprek', 'Renyahnya hingga ke dalam\r\n						', '7000.00', 'Food-Name-279.jpg', 1, 'Yes', 'Yes'),
-(9, 'Teh', 'Dicampur dengan gula yang pas	', '2000.00', 'Food-Name-8970.jpg', 11, 'Yes', 'Yes'),
-(10, 'Kopi', ' Penenang hidup dan teman diskusi\r\n						', '2000.00', 'Food-Name-205.jpg', 11, 'Yes', 'Yes');
+(1, 'Bakso', 'Diolah dari daging sapi pilihan', '5000.00', 'Food-Name-4481.jpg', 1, 'Yes', 'Yes'),
+(2, 'Nasi Goreng', 'Digoreng dengan minyak pilihan dan dilengkapi sayur mayur				', '7000.00', 'Food-Name-5441.jpg', 10, 'Yes', 'Yes'),
+(3, 'Nasi Pecel', 'Dicampur dengan sambal yang pedas\r\n						', '5000.00', 'Food-Name-8290.jpg', 10, 'Yes', 'Yes'),
+(4, 'Ayam Geprek', 'Renyahnya hingga ke dalam\r\n						', '7000.00', 'Food-Name-279.jpg', 1, 'Yes', 'Yes'),
+(5, 'Teh', 'Dicampur dengan gula yang pas	', '2000.00', 'Food-Name-8970.jpg', 11, 'Yes', 'Yes'),
+(6, 'Kopi', ' Penenang hidup dan teman diskusi\r\n						', '2000.00', 'Food-Name-205.jpg', 11, 'Yes', 'Yes');
 
 CREATE TABLE tbl_meja (
 	id_table varchar(3) PRIMARY KEY,
@@ -72,13 +72,26 @@ CREATE TABLE tbl_order (
   customer_contact varchar(20) NOT NULL,
   customer_address varchar(255) NOT NULL
 );
-
 -- SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO tbl_order (id, id_table, food, price, qty, total, order_date, status, customer_name, customer_contact, customer_address) VALUES
 (7, "M1", 'Kopi', '2000.00', 1, '2000.00', '2021-06-25 10:44:03', 'Delivered', 'Ardiansyah', '08512345678', 'Jalan Gajah Mada'),
 (8, "M3", 'Nasi Goreng', '7000.00', 1, '7000.00', '2021-06-25 11:18:14', 'Ordered', 'admin''', '0835487946', 'Jalan Pahlawan'),
 (9, "M3", 'Nasi Goreng', '7000.00', 5, '35000.00', '2021-06-28 12:30:17', 'Delivered', 'Zinedine Zidane', '08157846448', 'Jalan Majapahit');
+
+CREATE TABLE tbl_cart (
+	id_cart int(10) PRIMARY KEY,
+	id_table varchar(3), FOREIGN KEY (id_table) REFERENCES tbl_meja(id_table),
+	title varchar(150) NOT NULL,
+	price decimal(10,2) NOT NULL,
+	qty int(11) NOT NULL,
+	sub_total decimal(10,2) NOT NULL
+);
+
+-- DROP TABLE tbl_cart;
+
+ALTER TABLE `tbl_cart`
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `tbl_admin`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
@@ -87,7 +100,7 @@ ALTER TABLE `tbl_category`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 ALTER TABLE `tbl_food`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
   
 ALTER TABLE `tbl_order`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;

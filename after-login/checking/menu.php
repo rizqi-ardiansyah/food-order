@@ -43,6 +43,9 @@
                         <a href="<?php echo SITEURL;?>after-login/status-order-login.php">Ordered Status</a>
                     </li>
                     <li>
+                        <a href="<?php echo SITEURL;?>after-login/cart-index.php">Cart</a>
+                    </li>
+                    <li>
                         <a href="<?php echo SITEURL;?>after-login/customer-login.php">Logout</a>
                     </li>
                 </ul>

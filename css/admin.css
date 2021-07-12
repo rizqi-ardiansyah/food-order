@@ -119,6 +119,7 @@ table tr td {
 
 .menu ul li a:hover {
     color: #ff4757;
+    display: inline;
 }
 
 

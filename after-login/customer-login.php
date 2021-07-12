@@ -28,7 +28,7 @@
                         <ul class="slider-pagi col-lg-12"></ul>
                         <div class="slider nopadding container overflow-visible container-fluid">
                             <div class="slide slide-0 active">
-                                <img src="../images/Slider/Food 1.jpg" class="slide__bg col-lg-12">
+                                <img src="../images/Slider/Food 1.jpg" class="slide__bg col-lg-12 img-fluid">
                                 <div class="slide__content col-lg-12">
                                     <svg class="slide__overlay col-lg-12" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
                                         <path class="slide__overlay-path col-lg-12" d="M0,0 150,0 500,405 0,405" />
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="slide slide-1 overflow-hidden container-fluid">
-                                <img src="../images/Slider/Food 2.jpg" class="slide__bg col-lg-12">
+                                <img src="../images/Slider/Food 2.jpg" class="slide__bg col-lg-12 img-fluid">
                                 <div class="slide__content col-lg-12">
                                     <svg class="slide__overlay col-lg-12" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
                                         <path class="slide__overlay-path col-lg-12" d="M0,0 150,0 500,405 0,405" />
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="slide slide-2 overflow-hidden container-fluid">
-                                <img src="../images/Slider/Food 3.jpg" class="slide__bg col-lg-12">
+                                <img src="../images/Slider/Food 3.jpg" class="slide__bg col-lg-12 img-fluid">
                                 <div class="slide__content col-lg-12">
                                     <svg class="slide__overlay col-lg-12" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
                                         <path class="slide__overlay-path col-lg-12" d="M0,0 150,0 500,405 0,405" />
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="slide slide-3 overflow-hidden container-fluid">
-                                <img src="../images/Slider/Food 4.jpg" class="slide__bg col-lg-12">
+                                <img src="../images/Slider/Food 4.jpg" class="slide__bg col-lg-12 img-fluid">
                                 <div class="slide__content col-lg-12">
                                     <svg class="slide__overlay col-lg-12" viewBox="0 0 720 405" preserveAspectRatio="xMaxYMax slice">
                                         <path class="slide__overlay-path col-lg-12" d="M0,0 150,0 500,405 0,405" />
@@ -126,7 +126,6 @@
         $sql = "SELECT * FROM tbl_meja WHERE id_table='$id_table' AND password='$password'";
         $res = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($res);
-
         if($count==1){
             $_SESSION['login-cust'] = "<div class='sukses text-center'>Succesfully Login</div>";
             $_SESSION['cust'] = $id_table;
