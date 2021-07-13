@@ -9,7 +9,7 @@
                     echo $_SESSION ['login'];
                     unset($_SESSION['login']);
                 }
-            ?><br><br>
+            ?>
             
 				<div class="col-4 text-center">
 				<?php
@@ -62,14 +62,16 @@
 					//Proses menghitung total
 					$total_pendapatan = $hitung['Total'];
 				?>
-					<h1>Rp <?php echo $total_pendapatan; ?></h1>
-					<br/>
+					<h2 class="mb-5 mt-0">Rp <?php echo $total_pendapatan; ?></h2>
 					Revenue Generated
 				</div>
 
 				<div class="clearfix"></div>
 		</div>
 	</div>
+	<script>
+        AOS.init();
+    </script>
 	<!-- Main Content Section Ends -->
 
 <?php include("partials/footer.php") ?>
