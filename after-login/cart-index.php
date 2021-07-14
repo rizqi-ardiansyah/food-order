@@ -59,10 +59,25 @@
                 <div class="container-fluid mt-4">
                 <?php
                     if(isset($_SESSION['update']))
-                        {
+                    {
                             echo $_SESSION['update']; //Display session message
                             unset($_SESSION['update']); //Removing session message
-                        }
+                    }
+                    if(isset($_SESSION['delete']))
+                    {
+                            echo $_SESSION['delete']; //Display session message
+                            unset($_SESSION['delete']); //Removing session message
+                    }
+                    if(isset($_SESSION['submit']))
+                    {
+                            echo $_SESSION['submit']; //Display session message
+                            unset($_SESSION['submit']); //Removing session message
+                    }
+                    if(isset($_SESSION['order']))
+                    {
+                            echo $_SESSION['order']; //Display session message
+                            unset($_SESSION['order']); //Removing session message
+                    }
                 ?>
                     <h3 class="mt-2 mb-2 container-fluid">Your Cart</h3>
                     <h4 class="mt-2 container-fluid id_tbl" name="id_tbl" id="id_tbl">ID Table : <?php echo $_SESSION['cust'];?></h4>
@@ -81,56 +96,37 @@
         $id_tbl = $_SESSION['cust'];
         $sql = "SELECT * FROM tbl_cart WHERE id_table = '$id_tbl'";
         $cek = mysqli_query($conn, $sql);
-        $count = mysqli_num_rows($cek);
-        $sn = 1;
-        $idx = 0;
-        if($count>0){
-            while($row = mysqli_fetch_assoc($cek)){
-                // $id = $_row['id_table'];
-                $id_cart = $row['id_cart'];
-                $title = $row['title'];
-                $price = $row['price'];
-                $qty = $row['qty'];
-                $subtotal = $qty * $price;
-                $pricetotal += $subtotal; 
+        if($cek==true){
+            $count = mysqli_num_rows($cek);
+            $sn = 1;
+            if($count>0){
+                while($row = mysqli_fetch_assoc($cek)){
+                    // $id = $_row['id_table'];
+                    $id_cart = $row['id_cart'];
+                    $title = $row['title'];
+                    $price = $row['price'];
+                    $qty = $row['qty'];
+                    $subtotal = $qty * $price;
+                    $pricetotal += $subtotal; 
 ?>
-                        <tbody style="padding: 1%;">
-                            <tr class="text-center table-striped" style="vertical-align: middle;">
-                                <td scope="row" class="text-center"><?php echo $sn++;?></td>
-                                <td name="title"><?php echo $title;?></td>
-                                <td name="qty"><?php echo $qty;?></td>
-                                <td name="price"><?php echo $price;?></td>
-                                <td name="subtotal"><?php echo $subtotal;?></td>
-                                <td>
-                                    <form method="POST" action=" " class="input-responsive">
-                                        <a href="cart-index.php?id=<?php echo $row['id_cart'] ;?>">
-                                        <!-- <button type="submit" class="btn btn-danger btn-md" name="delete" style="width: 20%;"> -->
-                                            <input type="submit" class="input-responsive btn btn-danger btn-md text-center" name="submit" style="width: 45%;">
-                                            <!-- <i class="fa fa-trash"></i> -->
-                                        <!-- </button> -->
+                            <tbody style="padding: 1%;">
+                                <tr class="text-center table-striped" style="vertical-align: middle;">
+                                    <td scope="row" class="text-center"><?php echo $sn++ ?></td>
+                                    <td name="title"><?php echo $title;?></td>
+                                    <td name="qty"><?php echo $qty;?></td>
+                                    <td name="price"><?php echo $price;?></td>
+                                    <td name="subtotal"><?php echo $subtotal;?></td>
+                                    <td>
+                                        <a class="btn btn-danger" href="<?php echo SITEURL; ?>after-login/remove-item.php?id_cart=<?php echo $id_cart ;?>" style="vertical-align: middle; background-color: #ff6b81; width: 20%;">
+                                            <i class="fa fa-trash"></i>
                                         </a>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>   
-<?php 
-            }
-        } else {
-            echo "<tr><td colspan='12' class='eror text-center'>Cart is Empty</td></tr>";
-        }
-        if(isset($_POST['submit'])){
-            // $id_tbl = $_SESSION['cust'];
-            // $title = $_POST['title'];
-            $id_cart = $_GET['id_cart'];
-            $del = "DELETE FROM tbl_cart WHERE id_cart ='$id_cart'";
-            $resp = mysqli_query($conn, $del);
-            if($resp == true){
-                $_SESSION['delete'] = "<div class = 'sukses text-center'>Item Successfully to Delete</div>";
-                header("Location: http://localhost/food-order/after-login/cart-index.php");
+                                    </td>
+                                </tr>
+                            </tbody>   
+<?php
+                }
             } else {
-                //Gagal di simpan
-                $_SESSION['delete'] = "<div class = 'eror text-center'>Failed to delete</div>";
-                header("Location: http://localhost/food-order/after-login/cart-index.php");
+                echo "<tr><td colspan='12' class='eror text-center'>Cart is Empty</td></tr>";
             }
         }
 ?>
@@ -173,6 +169,7 @@
                     $insert = "INSERT INTO tbl_order(id_table, food, price, qty, total) SELECT id_table, title, price, qty, sub_total FROM tbl_cart";
                     $check = mysqli_query($conn, $insert);
                              date_default_timezone_set("Asia/Jakarta");
+                             $id_order = $_GET['id'];
                              $order_date = date("Y-m-d H:i:sa");
                              $status = "Ordered";
                              $customer_name = mysqli_real_escape_string($conn, $_POST['full_name']);
@@ -180,17 +177,18 @@
                              $customer_address = mysqli_real_escape_string($conn, $_POST['address']);
                              $sql2 = "UPDATE tbl_order SET status = '$status', order_date = '$order_date', customer_name = '$customer_name', customer_contact ='$customer_contact', customer_address = '$customer_address' WHERE id_table = '$id_tbl' AND status != 'Delivered'";
                             //proses eksekusi
+                    $checking = "SELECT * FROM tbl_order WHERE id = '$id_order'";
                             $res2 = mysqli_query($conn, $sql2);
                             if($res2 == true && $check == true){
                                 $id = $_SESSION['cust'];
                                 $sqli = "DELETE FROM tbl_cart WHERE id_table = '$id'";
                                 $res = mysqli_query($conn, $sqli);
                                 //Data akan tersimpan
-                                $_SESSION['order'] = "<div class = 'sukses text-center'>Successfully Processed</div>";
+                                $_SESSION['order'] = "<div class = 'sukses text-center'>Order food is successfully</div>";
                                 header("Location: http://localhost/food-order/after-login/index-login.php");
                             } else {
                                 //Gagal di simpan
-                                $_SESSION['order'] = "<div class = 'eror text-center'>Failed</div>";
+                                $_SESSION['order'] = "<div class = 'eror text-center'>Failed to order food</div>";
                                 header("Location: http://localhost/food-order/after-login/index-login.php");
                             }
                 } 

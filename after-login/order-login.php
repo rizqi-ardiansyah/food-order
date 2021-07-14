@@ -91,6 +91,7 @@
                 //Cek apakah tombol submit berhasil di clik
                 if(isset($_POST['submit'])){
                     //Proses mendapatkan data
+                    $id = $_GET['id_cart'];
                     $id_tbl = $_POST['id_table'];
                     $food = $_POST['title'];
                     $price = $_POST['price'];
