@@ -23,6 +23,19 @@
 			}
 		?>
 
+		<?php
+			if(isset($_SESSION['same-title'])){
+				echo $_SESSION['same-title'];
+				unset($_SESSION['same-title']);
+			}
+		?>
+
+		<?php
+			if(isset($_SESSION['validation-image'])){
+				echo $_SESSION['validation-image'];
+				unset($_SESSION['validation-image']);
+			}
+		?>
 
 		<br><br>
 		<!-- Add form category -->
@@ -32,14 +45,14 @@
 				<tr>
 					<td>Name: </td>
 					<td>
-						<input type="text" name="title" placeholder="Enter your category name">
+						<input type="text" name="title" placeholder="Enter your category name" required>
 					</td>
 				</tr>
 
 				<tr>
 					<td>Choose image: </td>
 					<td>
-						<input type="file" name="image">
+						<input type="file" name="image" required>
 					</td>
 				</tr>
 
@@ -68,11 +81,32 @@
 			</table>
 		</form>
 		<!-- Batas form kategori -->
+
+
 		<?php
 			//Cek apakah button di klik
-		if(isset($_POST['submit'])){
+			if(isset($_POST['submit'])){
+
 			//1. Mendapatkan value dari form kategori
 			$title = mysqli_real_escape_string($conn, $_POST['title']);
+
+			//Category name validation
+			$sql2 = "SELECT * FROM tbl_category";
+
+			$res2 = mysqli_query($conn, $sql2);
+			$count = mysqli_num_rows($res2);
+			
+			if($count > 0){
+				while($row = mysqli_fetch_assoc($res2)){
+					$title2 = $row['title'];
+					if($title == $title2){
+						$_SESSION['same-title'] = "<div class = 'eror'>Category name already exist!</div>";
+						header("location:".SITEURL.'admin/add-category.php');
+						die();
+					}
+				}
+			}
+
 
 			//Untuk radio, perlu pengecekan apakah terpilih atau tidak
 			if(isset($_POST['featured']))
@@ -96,6 +130,47 @@
 			//die();//break the code
 			if(isset($_FILES['image']['name']))
 			{	
+				//Validation image
+				//Get image dimension
+				$fileinfo = @getimagesize($_FILES['image']['tmp_name']);
+				$width = $fileinfo[0];
+				$height = $fileinfo[1];
+				
+				$allowed_image_extension = array(
+					"png",
+					"jpg",
+					"jpeg"
+				);
+				
+				// Get image file extension
+				$file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+			
+				// Validate file input to check if is with valid extension
+				if (! in_array($file_extension, $allowed_image_extension)) {
+					
+					$_SESSION['validation-image'] = "<div class='eror'>Upload valid images. Only PNG and 
+					JPEG are allowed</div>";
+					header("location:".SITEURL.'admin/add-category.php');
+					die();
+
+				}    // Validate image file size
+				else if (($_FILES["image"]["size"] > 2000000)) {
+					
+					$_SESSION['validation-image'] = "<div class='eror'>Image size exceeds 
+					2MB</div>";
+					header("location:".SITEURL."admin/add-category.php");
+					die();
+
+				}    // Validate image file dimension
+				else if ($width != "400" && $height != "500") {
+			
+					$_SESSION['validation-image'] = "<div class='eror'>Image dimension should be 
+					400X500</div>";
+					header("location:".SITEURL."admin/add-category.php");
+					die();
+				}
+				else{
+
 				//Upload the image
 				//Untuk upload image, kita perlu nama image, source path dan destination path
 				$image_name = $_FILES['image']['name'];
@@ -130,6 +205,7 @@
 						die();
 				}
 				}
+			}
 			}
 			else
 			{

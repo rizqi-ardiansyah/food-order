@@ -17,6 +17,7 @@
 		$title = $row2['title'];
 		$description = $row2['description'];
 		$price = $row2['price'];
+		$stock = $row2['stock'];
 		$current_image = $row2['image_name'];
 		$current_category = $row2['category_id'];
 		$featured = $row2['featured'];
@@ -51,6 +52,12 @@
 					<td>Price: </td>
 					<td>
 						<input type="number" name="price" value="<?php echo $price;?>">
+					</td>
+				</tr>
+				<tr>
+					<td>Stock: </td>
+					<td>
+						<input type="number" name="stock" value="<?php echo $stock;?>">
 					</td>
 				</tr>
 				<tr>
@@ -140,6 +147,7 @@
 				$title = mysqli_real_escape_string($conn, $_POST['title']);
 				$description = mysqli_real_escape_string($conn, $_POST['description']);
 				$price = mysqli_real_escape_string($conn, $_POST['price']);
+				$stock = mysqli_real_escape_string($conn, $_POST['stock']);
 				$current_image = $_POST['current_image'];
 				$category = $_POST['category'];
 				$featured = $_POST['featured'];
@@ -205,6 +213,7 @@
 				title = '$title',
 				description = '$description',
 				price = $price,
+				stock = $stock,
 				image_name = '$image_name',
 				category_id = '$category',
 				featured = '$featured',

@@ -55,6 +55,7 @@
                         $id = $row2['id'];
                         $title = $row2['title'];
                         $price = $row2['price'];
+                        $stock = $row2['stock'];
                         $description = $row2['description'];
                         $image_name = $row2['image_name'];
 
@@ -85,8 +86,19 @@
                                     <?php echo $description;?>
                                 </p>
                                 <br>
+                                <?php
+                                        if($stock == 0){
+                                        ?>
+                                        <div class="btnStock">Stock Out</div>
+                                        <?php
+                                        }else{
+                                        ?>
+                                            <a href="<?php echo SITEURL;?>after-login/customer-login.php" class="btn btn-primary">Order</a>
+                                            <div class="btnStock">Stock : <?php echo $stock;?></div>
 
-                                <a href="<?php echo SITEURL;?>order.php?food_id=<?php echo $id;?>" class="btn btn-primary">Order Now</a>
+                                        <?php 
+                                        }
+                                    ?>
                             </div>
                         </div>
 

@@ -15,32 +15,47 @@
 			}
 		?>
 
+		<?php
+			if(isset($_SESSION['same-title'])){
+				echo $_SESSION['same-title'];
+				unset($_SESSION['same-title']);
+			}
+		?>
+
+		<?php
+			if(isset($_SESSION['validation-image'])){
+				echo $_SESSION['validation-image'];
+				unset ($_SESSION['validation-image']);
+			}
+		?>
+
+		<br><br>
+		
 		<form action="" method="POST" enctype="multipart/form-data">
 			
 			<table class="tbl-30">
 				<tr>
 					<td>Title: </td>
 					<td>
-						<input type="text" name="title" placeholder="Title of the food">
+						<input type="text" name="title" placeholder="Title of the food" required>
 					</td>
 				</tr>
 				<tr>
 					<td>Description: </td>
 					<td>
-						<textarea name="description" cols="30" rows="5" placeholder="Description of the food"> 
-						</textarea>
+						<textarea name="description" cols="30" rows="5" placeholder="Description of the food" required></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>Price: </td>
 					<td>
-						<input type="number" name="price">
+						<input type="number" name="price" required>
 					</td>
 				</tr>
 				<tr>
 					<td>Select Image: </td>
 					<td>
-						<input type="file" name="image">
+						<input type="file" name="image" required>
 					</td>
 				</tr>
 				<tr>
@@ -113,9 +128,35 @@
 
 		 		//1. Get the data from form
 		 		$title = mysqli_real_escape_string($conn, $_POST['title']);
-		 		$description = mysqli_real_escape_string($conn, $_POST['description']);
-		 		$price = mysqli_real_escape_string($conn, $_POST['price']);
-		 		$category = mysqli_real_escape_string($conn, $_POST['category']);
+		 		
+				//Food name validation
+				$sql2 = "SELECT * FROM tbl_food";
+
+				$res2 = mysqli_query($conn, $sql2);
+				$count = mysqli_num_rows($res2);
+				
+				if($count > 0){
+					while($row = mysqli_fetch_assoc($res2)){
+						$title2 = $row['title'];
+						if($title == $title2){
+							$_SESSION['same-title'] = "<div class = 'eror'>Food name already exist!</div>";
+							header("location:".SITEURL.'admin/add-food.php');
+							die();
+						}
+					}
+				} 
+				
+				$description = mysqli_real_escape_string($conn, $_POST['description']);
+
+		 		//Validation description
+				if (strlen($description)>60) {
+					$_SESSION['upload'] = "<div class='eror'>Number of characters in description exceeds 60</div>";
+					header('location:'.SITEURL.'admin/add-food.php');
+					die();
+				}
+
+				$price = mysqli_real_escape_string($conn, $_POST['price']);
+				$category = mysqli_real_escape_string($conn, $_POST['category']);
 		 		//Check whether radio button for featured and active are checked or not
 		 		if(isset($_POST['featured'])){
 		 			$featured = $_POST['featured'];
@@ -131,38 +172,79 @@
 		 		//Check whether the select image is clicked or not
 		 		if(isset($_FILES['image']['name']))
 		 		{
-		 			//Get the details of the selected image
-		 			$image_name = $_FILES['image']['name'];
-		 			//Check whether the image is selected or not and upload image only if selected
-		 			if($image_name !="")
-		 			{
-		 				//Image is selected
-		 				//A. Rename the image
-		 				//Get the extension of selected image (jpg, png, gif, etc.)
-		 				$ext = end(explode('.',$image_name));
-		 				//Create new name for image
-		 				$image_name = "Food-Name-".rand(0000,9999).".".$ext;//New image name may be "Food-Name-657.jpg"
-		 				//B. Upload the image
-		 				//Get the src path and destination path
+					//Validation image
+					//Get image dimension
+					$fileinfo = @getimagesize($_FILES['image']['tmp_name']);
+					$width = $fileinfo[0];
+					$height = $fileinfo[1];
+					
+					$allowed_image_extension = array(
+						"png",
+						"jpg",
+						"jpeg"
+					);
+					
+					// Get image file extension
+					$file_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+				
+					// Validate file input to check if is with valid extension
+					if (! in_array($file_extension, $allowed_image_extension)) {
+						
+						$_SESSION['validation-image'] = "<div class='eror'>Upload valid images. Only PNG and 
+						JPEG are allowed</div>";
+						header("location:".SITEURL.'admin/add-food.php');
+						die();
 
-		 				//Source path is the current location of the image 
-		 				$src = $_FILES['image']['tmp_name'];
-		 				//Destination path for image to be uploaded
-		 				$dst = "../images/food/".$image_name;
-		 				//Finally upload the food image
-		 				$upload = move_uploaded_file($src, $dst);
-		 				//Check whether image uploaded or not
-		 				if($upload==false)
-		 				{
-		 					//Failed to upload the image
-		 					//Redirect to add food page with error message
-		 					$_SESSION['upload'] = "<div class='eror'>Failed to upload image</div>";
-		 					header('location:'.SITEURL.'admin/add-food.php');
-		 					//Stop the proccess
-		 					die();
-		 				}
-		 			}
-		 		}
+					}    // Validate image file size
+					else if (($_FILES["image"]["size"] > 2000000)) {
+						
+						$_SESSION['validation-image'] = "<div class='eror'>Image size exceeds 
+						2MB</div>";
+						header("location:".SITEURL.'admin/add-food.php');
+						die();
+
+					}    // Validate image file dimension
+					else if ($width != "400" && $height != "500") {
+				
+						$_SESSION['validation-image'] = "<div class='eror'>Image dimension should be 
+						400X500</div>";
+						header("location:".SITEURL.'admin/add-food.php');
+						die();
+					}
+					else{
+						//Get the details of the selected image
+						$image_name = $_FILES['image']['name'];
+						//Check whether the image is selected or not and upload image only if selected
+						if($image_name !="")
+						{
+							//Image is selected
+							//A. Rename the image
+							//Get the extension of selected image (jpg, png, gif, etc.)
+							$ext = end(explode('.',$image_name));
+							//Create new name for image
+							$image_name = "Food-Name-".rand(0000,9999).".".$ext;//New image name may be "Food-Name-657.jpg"
+							//B. Upload the image
+							//Get the src path and destination path
+
+							//Source path is the current location of the image 
+							$src = $_FILES['image']['tmp_name'];
+							//Destination path for image to be uploaded
+							$dst = "../images/food/".$image_name;
+							//Finally upload the food image
+							$upload = move_uploaded_file($src, $dst);
+							//Check whether image uploaded or not
+							if($upload==false)
+							{
+								//Failed to upload the image
+								//Redirect to add food page with error message
+								$_SESSION['upload'] = "<div class='eror'>Failed to upload image</div>";
+								header('location:'.SITEURL.'admin/add-food.php');
+								//Stop the proccess
+								die();
+							}
+						}
+					}
+				}
 		 		else
 		 		{
 		 			$image_name = "";//Default value is blank

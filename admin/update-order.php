@@ -3,6 +3,13 @@
         <div class="wrapper">
         <h1>Update Order</h1>
     <br><br>
+    <?php 
+			if(isset($_SESSION['status']))//Checking whether the session is set or not
+			{
+				echo $_SESSION['status']; //Display session message
+				unset($_SESSION['status']); //Removing session message
+			}
+    		?>
 <?php
     //Cek apakah id terdeteksi
     if(isset($_GET['id'])){
@@ -26,7 +33,6 @@
 			$status = $row ['status'];
 			$customer_name = $row['customer_name'];
 			$customer_contact  = $row['customer_contact'];
-			$customer_email = $row['customer_email'];
 			$customer_address = $row['customer_address']; 
         }else{
             header ('location:'.SITEURL.'admin/manage-order.php');
@@ -36,6 +42,7 @@
         header ('location:'.SITEURL.'admin/manage-order.php');
     }
 ?>
+
 <form action="" method="POST" >
     <table class="tbl-30">
         <tr>
@@ -49,7 +56,7 @@
         <tr>
             <td>Qty: </td>
             <td> 
-                <input type="number" name="qty" value="<?php echo $qty;?>">
+                <input type="number" name="qty" value="<?php echo $qty;?>"required>
             </td>
         </tr>
         <tr>
@@ -67,32 +74,26 @@
         <tr>
             <td>Customer Name: </td>
             <td>
-                <input type="text" name="customer_name" value="<?php echo $customer_name;?>">
+                <input type="text" name="customer_name" value="<?php echo $customer_name;?>" required>
             </td>
         </tr>
         <tr>
             <td>Contact</td>
             <td>
-                <input type="text" name="customer_contact" value="<?php echo $customer_contact;?>">
-            </td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>
-                <input type="email" name="customer_email" value="<?php echo $customer_email;?>">
+                <input type="number" name="customer_contact" value="<?php echo $customer_contact;?>" required>
             </td>
         </tr>
         <tr>
             <td>Address</td>
             <td>
-                <textarea name="customer_address" cols="30" rows="5"><?php echo $customer_address;?></textarea>
+                <textarea name="customer_address" cols="30" rows="5" required><?php echo $customer_address;?></textarea>
             </td>
         </tr>
         <tr>
             <td colspan ="2">
                 <input type="hidden" name="id" value="<?php echo $id;?>">
                 <input type="hidden" name="price" value="<?php echo $price;?>">
-                <input type="submit" name="submit" value="Perbarui Pesanan" class="btn-secondary">
+                <input type="submit" name="submit" value="Update Order" class="btn-secondary">
             </td>
         </tr>
 
@@ -109,7 +110,15 @@
         $status = $_POST ['status'];
         $customer_name = mysqli_real_escape_string($conn, $_POST['customer_name']);
         $customer_contact  = mysqli_real_escape_string($conn, $_POST['customer_contact']);
-        $customer_email = mysqli_real_escape_string($conn, $_POST['customer_email']);
+
+        //Validation number
+        if (strlen($customer_contact)!=12) {
+            $_SESSION['validation'] = "<div class='eror'>Please input valid phone number</div>";
+            header('location:'.SITEURL.'admin/manage-order.php');
+            die();
+        }
+
+       // $customer_email = mysqli_real_escape_string($conn, $_POST['customer_email']);
         $customer_address = mysqli_real_escape_string($conn, $_POST['customer_address']);
         //Proses update
         $sql2 = "UPDATE tbl_order SET 
@@ -118,7 +127,6 @@
             status = '$status',
             customer_name = '$customer_name',
             customer_contact = '$customer_contact',
-            customer_email = '$customer_email',
             customer_address = '$customer_address'
             WHERE id = $id
         ";

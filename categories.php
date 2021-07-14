@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kategori Makanan</title>
+        <link rel="stylesheet" href="/BS/dist/css/bootstrap.min.css">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="images/Icon Restoran.ico">
+
+    </head>
+    <body>
+
 <?php
     include('partials-front/menu.php');
 ?>
@@ -36,7 +50,7 @@
                     $image_name = $row['image_name'];
                     ?>
 
-                    <a href="<?php echo SITEURL;?>category-foods.php?category_id=<?php echo $id;?>">
+                    <a href="<?php echo SITEURL;?>category-foods.php?category_id=<?php echo $id;?>" data-aos="zoom-in" data-aos-duration="2000">
                     <div class="box-3 float-container">
                         <?php
                             //Check whether image is available or not
@@ -73,7 +87,7 @@
 
 
     <!-- social Section Starts Here -->
-    <section class="social">
+    <section class="social" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="1500">
         <div class="container text-center">
             <ul>
                 <li>
@@ -89,6 +103,9 @@
         </div>
     </section>
     <!-- social Section Ends Here -->
+    <script>
+        AOS.init();
+    </script>
 
 <?php
     include('partials-front/footer.php');

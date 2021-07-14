@@ -53,6 +53,7 @@
 					<th>Id</th>
 					<th>Title</th>
 					<th>Price</th>
+					<th>Stock</th>
 					<th>Image</th>
 					<th>Featured</th>
 					<th>Active</th>
@@ -82,6 +83,7 @@
 							$id = $row['id'];
 							$title = $row['title'];
 							$price = $row['price'];
+							$stock = $row['stock'];
 							$image_name = $row['image_name'];
 							$featured = $row['featured'];
 							$active = $row['active'];
@@ -91,6 +93,7 @@
 									<td><?php echo $sn++;?></td>
 									<td><?php echo $title;?></td>
 									<td>Rp <?php echo $price;?></td>
+									<td><?php echo $stock;?></td>
 									<td>
 										<?php
 										//Check whether we have image or not
@@ -109,8 +112,8 @@
 									<td><?php echo $featured;?></td>
 									<td><?php echo $active;?></td>
 									<td>
-										<a href="<?php echo SITEURL;?>admin/update-food.php?id=<?php echo $id;?>" class="btn-secondary">Update Food</a>
-										<a href="<?php echo SITEURL;?>admin/delete-food.php?id=<?php echo $id;?>&image_name=<?php echo $image_name;?>" class="btn-danger">Delete Food</a>
+										<a href="<?php echo SITEURL;?>admin/update-food.php?id=<?php echo $id;?>" class="btn-secondary">Update</a>
+										<a href="<?php echo SITEURL;?>admin/delete-food.php?id=<?php echo $id;?>&image_name=<?php echo $image_name;?>" class="btn-danger">Delete</a>
 									</td>
 								</tr>
 

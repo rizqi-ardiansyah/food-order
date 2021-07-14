@@ -39,9 +39,10 @@
                     //Food available
                     while($row=mysqli_fetch_assoc($res)){
                         //Get details
-                        $id = $row['id'];
+                        $food_id = $row['id'];
                         $title=$row['title'];
                         $price=$row['price'];
+                        $stock=$row['stock'];
                         $description=$row['description'];
                         $image_name=$row['image_name'];
                         ?>
@@ -70,8 +71,21 @@
                                        <?php echo $description;?>
                                     </p>
                                     <br>
+                                    
+                                    <?php
+                                        if($stock == 0){
+                                        ?>
+                                        <div class="btnStock">Stock Out</div>
+                                        <?php
+                                        }else{
+                                        ?>
+                                            <a href="<?php echo SITEURL;?>after-login/customer-login.php" class="btn btn-primary">Order</a>
+                                            <div class="btnStock">Stock : <?php echo $stock;?></div>
 
-                                    <a href="#" class="btn btn-primary">Order Now</a>
+                                        <?php 
+                                        }
+                                    ?>
+                                    <!-- <a href="#" class="btn btn-primary">Order Now</a> -->
                                 </div>
                             </div>
 
