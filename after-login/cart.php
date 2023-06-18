@@ -92,6 +92,6 @@
 <?php 
     }
     if(isset($_GET['index'])){
-        header('Location: http://localhost/food-order/after-login/index-login.php');
+        header('Location: http://localhost:8080/food-order/after-login/index-login.php');
     }
 ?>

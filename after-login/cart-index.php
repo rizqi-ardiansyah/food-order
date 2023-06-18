@@ -185,11 +185,11 @@
                                 $res = mysqli_query($conn, $sqli);
                                 //Data akan tersimpan
                                 $_SESSION['order'] = "<div class = 'sukses text-center'>Order food is successfully</div>";
-                                header("Location: http://localhost/food-order/after-login/index-login.php");
+                                header("Location: http://localhost:8080/food-order/after-login/index-login.php");
                             } else {
                                 //Gagal di simpan
                                 $_SESSION['order'] = "<div class = 'eror text-center'>Failed to order food</div>";
-                                header("Location: http://localhost/food-order/after-login/index-login.php");
+                                header("Location: http://localhost:8080/food-order/after-login/index-login.php");
                             }
                 } 
 ?>

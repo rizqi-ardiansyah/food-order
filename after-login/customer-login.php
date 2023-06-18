@@ -129,10 +129,10 @@
         if($count==1){
             $_SESSION['login-cust'] = "<div class='sukses text-center'>Succesfully Login</div>";
             $_SESSION['cust'] = $id_table;
-            header("Location: http://localhost/food-order/after-login/index-login.php");
+            header("Location: http://localhost:8080/food-order/after-login/index-login.php");
         } else {
             $_SESSION['login-cust'] = "<div class='eror text-center'>ID Table and Password do not match</div>";
-            header("Location: http://localhost/food-order/after-login/customer-login.php");
+            header("Location: http://localhost:8080/food-order/after-login/customer-login.php");
         }
     }
     ob_flush();

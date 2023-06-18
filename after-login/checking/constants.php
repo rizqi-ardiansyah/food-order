@@ -4,7 +4,7 @@
 
 
 		//Create Constatnts to store non repeating values
-		define('SITEURL', 'http://localhost/food-order/after-login/');
+		define('SITEURL', 'http://localhost:8080/food-order/after-login/');
 		define('LOCALHOST',  'localhost');
 		define('DB_USERNAME',  'root');
 		define('DB_PASSWORD', 'ZeroTwo02');

@@ -106,11 +106,11 @@
                         $change = mysqli_query($conn, $update);
                         if($change == true){
                             $_SESSION['order'] = "<div class = 'sukses text-center'>Food successfully update to Cart</div>";
-                            header("Location: http://localhost/food-order/after-login/order-login.php");
+                            header("Location: http://localhost:8080/food-order/after-login/order-login.php");
                         } else {
                             //Gagal di simpan
                             $_SESSION['order'] = "<div class = 'eror text-center'>Failed to added food</div>";
-                            header("Location: http://localhost/food-order/after-login/index-login.php");
+                            header("Location: http://localhost:8080/food-order/after-login/index-login.php");
                         }
                     } else {
                         $sql2 = "INSERT INTO tbl_cart(id_table, title, price, qty, sub_total) 
@@ -120,11 +120,11 @@
                         if($res2 == true){
                             //Data akan tersimpan
                             $_SESSION['order'] = "<div class = 'sukses text-center'>Food successfully added to Cart</div>";
-                            header("Location: http://localhost/food-order/after-login/order-login.php");
+                            header("Location: http://localhost:8080/food-order/after-login/order-login.php");
                         } else {
                             //Gagal di simpan
                             $_SESSION['order'] = "<div class = 'eror text-center'>Failed to added food</div>";
-                            header("Location: http://localhost/food-order/after-login/index-login.php");
+                            header("Location: http://localhost:8080/food-order/after-login/index-login.php");
                         }
                     }
                 } 

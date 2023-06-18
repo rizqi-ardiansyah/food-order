@@ -7,10 +7,10 @@
         $res = mysqli_query($conn, $del);
         if($res == true){
             $_SESSION['delete'] = "<div class = 'sukses text-center'>Item Successfully to Delete</div>";
-            header("Location: http://localhost/food-order/after-login/cart-index.php");
+            header("Location: http://localhost:8080/food-order/after-login/cart-index.php");
         } else {
             //Gagal di simpan
             $_SESSION['delete'] = "<div class = 'eror text-center'>Failed to delete</div>";
-            header("Location: http://localhost/food-order/after-login/cart-index.php");
+            header("Location: http://localhost:8080/food-order/after-login/cart-index.php");
         }
 ?>

@@ -4,10 +4,10 @@
 
 
 		//Create Constatnts to store non repeating values
-		define('SITEURL', 'http://localhost/food-order/');
+		define('SITEURL', 'http://localhost:8080/food-order/');
 		define('LOCALHOST',  'localhost');
 		define('DB_USERNAME',  'root');
-		define('DB_PASSWORD', 'ZeroTwo02');
+		define('DB_PASSWORD', '');
 		define('DB_NAME', 'food_order');
 
 		$conn = mysqli_connect(LOCALHOST, DB_USERNAME, DB_PASSWORD); //database connections
